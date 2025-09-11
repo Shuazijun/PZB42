@@ -39,8 +39,8 @@
             "field_type": "text"
         },
         {
-            "name": "Administrator Username",
-            "description": "Username for the administrator account",
+            "name": "Admin Username",
+            "description": "Username for the admin account",
             "env_variable": "ADMIN_USER",
             "default_value": "admin",
             "user_viewable": true,
@@ -49,8 +49,8 @@
             "field_type": "text"
         },
         {
-            "name": "Administrator Password",
-            "description": "Password for the administrator account",
+            "name": "Admin Password",
+            "description": "Password for the admin account",
             "env_variable": "ADMIN_PASSWORD",
             "default_value": "P@ssWord",
             "user_viewable": true,
