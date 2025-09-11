@@ -4,14 +4,13 @@
         "version": "PTDL_v2",
         "update_url": null
     },
-    "exported_at": "2025-09-11T17:39:49+08:00",
+    "exported_at": "2025-09-11T16:43:13+08:00",
     "name": "Project Zomboid B42 Community Multiplayer Patch Server",
     "author": "shuazi@ixovo.com",
-    "description": "\u300aProject Zomboid\u300b\u662f\u4e00\u6b3e\u7531\u82f1\u56fd\u4e0e\u52a0\u62ff\u5927\u72ec\u7acb\u6e38\u620f\u5de5\u4f5c\u5ba4\"The Indie Stone\"\u5f00\u53d1\u7684\u5f00\u653e\u4e16\u754c\u751f\u5b58\u6050\u6016\u6e38\u620f,\u76ee\u524d\u5904\u4e8eBeta\u6d4b\u8bd5\u9636\u6bb5.\u6e38\u620f\u80cc\u666f\u8bbe\u5b9a\u5728\u540e\u542f\u793a\u5f55\u65f6\u4ee3\u7684\u50f5\u5c38\u8086\u8650\u4e16\u754c,\u73a9\u5bb6\u9700\u8981\u6311\u6218\u5728\u4e0d\u53ef\u907f\u514d\u7684\u6b7b\u4ea1\u524d\u5c3d\u53ef\u80fd\u957f\u65f6\u95f4\u5730\u751f\u5b58.\u8fd9\u662fB42\u5ba2\u6237\u7aef\u7684\u4fee\u6539\u7248\u672c,\u901a\u8fc7\u793e\u533a\u5f00\u53d1\u7684\u8865\u4e01\u5b9e\u73b0\u4e86B42\u7248\u672c\u7684\u591a\u4eba\u5728\u7ebf\u652f\u6301\u529f\u80fd\u3002\u90e8\u7f72\u670d\u52a1\u5668\u5efa\u8bae\u4f7f\u7528\u65e0\u767b\u5f55\u4ee4\u724c\u7684Steam\u8d26\u53f7\u4ee5\u907f\u514d\u5b89\u88c5\u65f6\u65e0\u6cd5\u8f93\u5165\u4e24\u6b65\u9a8c\u8bc1\u7801\u7684\u95ee\u9898.",
+    "description": "Project Zomboid is an open-world survival horror game developed by the British-Canadian independent game studio \"The Indie Stone\", currently in Beta testing phase. The game is set in a post-apocalyptic zombie-infested world during the aftermath of the Knox Event, where players must challenge themselves to survive as long as possible before inevitable death. This is a modified version of the B42 client that implements multiplayer online support for the B42 version through community-developed patches. It is recommended to use a Steam account without two-factor authentication to avoid issues with entering verification codes during installation.",
     "features": [],
     "docker_images": {
-        "\u5b98\u65b9\u955c\u50cf": "ghcr.io\/ptero-eggs\/steamcmd:debian",
-        "\u963f\u91cc\u4e91\u955c\u50cf": "registry.cn-shanghai.aliyuncs.com\/pterodactyl-images\/steamcmd:debian"
+        "SteamCMD:Debian": "ghcr.io\/ptero-eggs\/steamcmd:debian"
     },
     "file_denylist": [],
     "startup": ".\/start.sh -cachedir=\/home\/container\/.server -servername {{SERVER_NAME}} -port {{SERVER_PORT}} -udpport {{STEAM_PORT}} -adminusername {{ADMIN_USER}} -adminpassword {{ADMIN_PASSWORD}}",
@@ -30,8 +29,8 @@
     },
     "variables": [
         {
-            "name": "\u670d\u52a1\u5668\u914d\u7f6e\u6587\u4ef6",
-            "description": "\u8bbe\u7f6e\u542f\u52a8\u7684\u670d\u52a1\u5668\u914d\u7f6e\u6587\u4ef6\u540d\u79f0,\u9ed8\u8ba4\u4e0d\u9700\u8981\u66f4\u6539.",
+            "name": "Server Configuration File",
+            "description": "Set the server configuration file name to start, no changes needed by default.",
             "env_variable": "SERVER_NAME",
             "default_value": "servertest",
             "user_viewable": true,
@@ -40,8 +39,8 @@
             "field_type": "text"
         },
         {
-            "name": "\u7ba1\u7406\u5458\u7528\u6237\u540d",
-            "description": "\u7ba1\u7406\u5458\u8d26\u6237\u7684\u7528\u6237\u540d",
+            "name": "Administrator Username",
+            "description": "Username for the administrator account",
             "env_variable": "ADMIN_USER",
             "default_value": "admin",
             "user_viewable": true,
@@ -50,8 +49,8 @@
             "field_type": "text"
         },
         {
-            "name": "\u7ba1\u7406\u5458\u5bc6\u7801",
-            "description": "\u7ba1\u7406\u5458\u8d26\u6237\u7684\u5bc6\u7801",
+            "name": "Administrator Password",
+            "description": "Password for the administrator account",
             "env_variable": "ADMIN_PASSWORD",
             "default_value": "P@ssWord",
             "user_viewable": true,
@@ -60,8 +59,8 @@
             "field_type": "text"
         },
         {
-            "name": "Steam\u7aef\u53e3",
-            "description": "\u8bbe\u7f6eUDP\u7aef\u53e3",
+            "name": "Steam Port",
+            "description": "Set UDP port",
             "env_variable": "STEAM_PORT",
             "default_value": "16262",
             "user_viewable": true,
@@ -70,8 +69,8 @@
             "field_type": "text"
         },
         {
-            "name": "Steam\u7528\u6237\u540d",
-            "description": "Steam\u8d26\u53f7\u7528\u6237\u540d,\u9996\u6b21\u5b89\u88c5\u5fc5\u987b\u586b\u5199,\u521d\u59cb\u5316\u5b8c\u6210\u540e\u53ef\u4ee5\u6e05\u7a7a.",
+            "name": "Steam Username",
+            "description": "Steam account username, must be filled in during first installation, can be cleared after initialization is complete.",
             "env_variable": "STEAM_USER",
             "default_value": "",
             "user_viewable": true,
@@ -80,8 +79,8 @@
             "field_type": "text"
         },
         {
-            "name": "Steam\u5bc6\u7801",
-            "description": "Steam\u8d26\u53f7\u5bc6\u7801,\u9996\u6b21\u5b89\u88c5\u5fc5\u987b\u586b\u5199,\u521d\u59cb\u5316\u5b8c\u6210\u540e\u53ef\u4ee5\u6e05\u7a7a.",
+            "name": "Steam Password",
+            "description": "Steam account password, must be filled in during first installation, can be cleared after initialization is complete.",
             "env_variable": "STEAM_PASS",
             "default_value": "",
             "user_viewable": true,
@@ -90,8 +89,8 @@
             "field_type": "text"
         },
         {
-            "name": "\u6e38\u620f\u5e94\u7528ID",
-            "description": "Steam\u5e94\u7528ID",
+            "name": "Game Application ID",
+            "description": "Steam Application ID",
             "env_variable": "DEPOT_APPID",
             "default_value": "108600",
             "user_viewable": true,
@@ -100,8 +99,8 @@
             "field_type": "text"
         },
         {
-            "name": "\u6e38\u620f\u5e94\u7528\u5b50ID",
-            "description": "Steam\u5e94\u7528\u5b50ID",
+            "name": "Game Application Sub ID",
+            "description": "Steam Application Sub ID",
             "env_variable": "DEPOT_SUBID",
             "default_value": "108603",
             "user_viewable": true,
@@ -110,8 +109,8 @@
             "field_type": "text"
         },
         {
-            "name": "Steam\u6d4b\u8bd5\u5206\u652f[\u9700\u8981\u91cd\u65b0\u5b89\u88c5]",
-            "description": "\u8981\u5b89\u88c5\u7684\u6d4b\u8bd5\u5206\u652f,\u4f8b\u5982unstable\u4e0d\u7a33\u5b9a\u5206\u652f.",
+            "name": "Steam Test Branch [Requires Reinstallation]",
+            "description": "The test branch to install, such as unstable branch.",
             "env_variable": "STEAM_BRANCHID",
             "default_value": "unstable",
             "user_viewable": true,
@@ -120,8 +119,8 @@
             "field_type": "text"
         },
         {
-            "name": "\u591a\u4eba\u6e38\u620f\u8865\u4e01[\u9700\u8981\u91cd\u65b0\u5b89\u88c5]",
-            "description": "\u591a\u4eba\u6e38\u620f\u8865\u4e01\u4e0b\u8f7d\u94fe\u63a5,\u9ed8\u8ba4\u4e0d\u9700\u8981\u4fee\u6539,\u82e5\u8865\u4e01\u9700\u8981\u66f4\u65b0,\u5219\u4fee\u6539\u8fd9\u4e2a\u94fe\u63a5\u540e\u8fdb\u884c\u91cd\u65b0\u5b89\u88c5.",
+            "name": "Multiplayer Game Patch [Requires Reinstallation]",
+            "description": "Multiplayer game patch download link, no changes needed by default. If the patch needs to be updated, modify this link and reinstall.",
             "env_variable": "PATCH_LINK",
             "default_value": "https:\/\/raw.githubusercontent.com\/Shuazijun\/PZB42\/refs\/heads\/main\/B42MP-1.57.rar",
             "user_viewable": true,
@@ -130,8 +129,8 @@
             "field_type": "text"
         },
         {
-            "name": "Depot\u90e8\u7f72\u5de5\u5177[\u9700\u8981\u91cd\u65b0\u5b89\u88c5]",
-            "description": "DepotDownloader\u7684\u4e0b\u8f7d\u94fe\u63a5,\u9ed8\u8ba4\u4e0d\u9700\u8981\u4fee\u6539.",
+            "name": "Depot Tool [Requires Reinstallation]",
+            "description": "DepotDownloader download link, no changes needed by default.",
             "env_variable": "DEPOT_LINK",
             "default_value": "https:\/\/github.com\/SteamRE\/DepotDownloader\/releases\/download\/DepotDownloader_3.4.0\/DepotDownloader-linux-x64.zip",
             "user_viewable": true,
@@ -140,8 +139,8 @@
             "field_type": "text"
         },
         {
-            "name": "\u81ea\u5b9a\u4e49\u542f\u52a8\u811a\u672c[\u9700\u8981\u91cd\u65b0\u5b89\u88c5]",
-            "description": "\u7b2c\u4e09\u65b9\u5f00\u53d1\u7684\u542f\u52a8\u811a\u672c\u652f\u6301,\u9ed8\u8ba4\u4e0d\u9700\u8981\u4fee\u6539.",
+            "name": "Custom Startup Script [Requires Reinstallation]",
+            "description": "Third-party developed startup script support, no changes needed by default.",
             "env_variable": "START_SH",
             "default_value": "https:\/\/raw.githubusercontent.com\/Shuazijun\/PZB42\/refs\/heads\/main\/start.sh",
             "user_viewable": true,
