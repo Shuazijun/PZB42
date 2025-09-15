@@ -1,0 +1,152 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2025-09-15T18:09:17+08:00",
+    "name": "Project Zomboid B42 Community Multiplayer Patch Server EN",
+    "author": "shuazi@ixovo.com",
+    "description": "Project Zomboid is an open-world survival horror game developed by the British-Canadian independent game studio \"The Indie Stone\", currently in Beta testing phase. The game is set in a post-apocalyptic zombie-infested world during the aftermath of the Knox Event, where players must challenge themselves to survive as long as possible before inevitable death. This is a modified version of the B42 client that implements multiplayer online support for the B42 version through community-developed patches. It is recommended to use a Steam account without two-factor authentication to avoid issues with entering verification codes during installation.",
+    "features": [],
+    "docker_images": {
+        "SteamCMD:Debian": "ghcr.io\/ptero-eggs\/steamcmd:debian"
+    },
+    "file_denylist": [],
+    "startup": ".\/start.sh -cachedir=\/home\/container\/.server -servername {{SERVER_NAME}} -port {{SERVER_PORT}} -udpport {{STEAM_PORT}} -adminusername {{ADMIN_USER}} -adminpassword {{ADMIN_PASSWORD}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"SERVER STARTED\"\r\n}",
+        "logs": "{}",
+        "stop": "quit"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# steamcmd Base Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\n# Image to install with is 'ghcr.io\/ptero-eggs\/installers:debian'\r\n\r\n## Steam Account Input Cheak.\r\nif [[ \"${STEAM_USER}\" == \"\" ]] || [[ \"${STEAM_PASS}\" == \"\" ]]; then\r\n    echo -e \"Steam User is not set.\\n\"\r\n    echo -e \"Using anonymous user.\\n\"\r\n    STEAM_USER=anonymous\r\n    STEAM_PASS=\"\"\r\nelse\r\n    echo -e \"User set to ${STEAM_USER}\"\r\nfi\r\n\r\n## Download and install Steamcmd\r\ncd \/tmp\r\nmkdir -p \/mnt\/server\/steamcmd\r\ncurl -sSL -o steamcmd.tar.gz https:\/\/steamcdn-a.akamaihd.net\/client\/installer\/steamcmd_linux.tar.gz\r\ntar -xzvf steamcmd.tar.gz -C \/mnt\/server\/steamcmd\r\nmkdir -p \/mnt\/server\/steamapps # Fix steamcmd disk write error when this folder is missing\r\ncd \/mnt\/server\/steamcmd\r\n\r\n# SteamCMD fails otherwise for some reason, even running as root.\r\n# This is changed at the end of the install process anyways.\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\n\r\n## install game using steamcmd\r\n.\/steamcmd.sh +force_install_dir \/mnt\/server +login anonymous +quit\r\n\r\n## set up 32 bit libraries\r\nmkdir -p \/mnt\/server\/.steam\/sdk32\r\ncp -v linux32\/steamclient.so ..\/.steam\/sdk32\/steamclient.so\r\n\r\n## set up 64 bit libraries\r\nmkdir -p \/mnt\/server\/.steam\/sdk64\r\ncp -v linux64\/steamclient.so ..\/.steam\/sdk64\/steamclient.so\r\n\r\n## The Fun Starts now\r\ncd \/mnt\/server\r\napt update\r\napt install -y wget unzip libarchive-tools\r\n\r\nwget -O depot.zip \"${DEPOT_LINK}\"\r\nunzip depot.zip\r\nrm -rf depot.zip\r\n\r\nwget -O start.sh \"${START_SH}\"\r\n\r\n.\/DepotDownloader -dir \"\/mnt\/server\" -app \"${DEPOT_APPID}\" -branch \"${STEAM_BRANCHID}\" -depot \"${DEPOT_SUBID}\" -username \"${STEAM_USER}\" -password \"${STEAM_PASS}\"\r\nchmod -R 777 .\/*\r\n\r\nwget -O B42MP.rar \"${PATCH_LINK}\"\r\nbsdtar -xf B42MP.rar\r\nmv .\/b42mp\/* .\/projectzomboid\r\nmv B42MP.jar .\/projectzomboid\r\nrm -R b42mp b42mp.bat .wget-hsts b42mp.sh b42serverstart.bat LICENSE LICENSE.txt B42MP.rar DepotDownloader\r\nchmod -R 777 .\/*\r\n## install end\r\necho \"-----------------------------------------\"\r\necho \"Installation completed...\"\r\necho \"-----------------------------------------\"",
+            "container": "ghcr.io\/ptero-eggs\/installers:debian",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Server Configuration File",
+            "description": "Set the server configuration file name to start, no changes needed by default.",
+            "env_variable": "SERVER_NAME",
+            "default_value": "servertest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:32",
+            "field_type": "text"
+        },
+        {
+            "name": "Admin Username",
+            "description": "Username for the admin account",
+            "env_variable": "ADMIN_USER",
+            "default_value": "admin",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:32",
+            "field_type": "text"
+        },
+        {
+            "name": "Admin Password",
+            "description": "Password for the admin account",
+            "env_variable": "ADMIN_PASSWORD",
+            "default_value": "P@ssWord",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:32",
+            "field_type": "text"
+        },
+        {
+            "name": "Steam Port",
+            "description": "Set UDP port",
+            "env_variable": "STEAM_PORT",
+            "default_value": "16262",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:32",
+            "field_type": "text"
+        },
+        {
+            "name": "Steam Username",
+            "description": "Steam account username, must be filled in during first installation, can be cleared after initialization is complete.",
+            "env_variable": "STEAM_USER",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:64",
+            "field_type": "text"
+        },
+        {
+            "name": "Steam Password",
+            "description": "Steam account password, must be filled in during first installation, can be cleared after initialization is complete.",
+            "env_variable": "STEAM_PASS",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string|max:64",
+            "field_type": "text"
+        },
+        {
+            "name": "Game Application ID",
+            "description": "Steam Application ID",
+            "env_variable": "DEPOT_APPID",
+            "default_value": "108600",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:32",
+            "field_type": "text"
+        },
+        {
+            "name": "Game Application Sub ID",
+            "description": "Steam Application Sub ID",
+            "env_variable": "DEPOT_SUBID",
+            "default_value": "108603",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:32",
+            "field_type": "text"
+        },
+        {
+            "name": "Steam Test Branch [Requires Reinstallation]",
+            "description": "The test branch to install, such as unstable branch.",
+            "env_variable": "STEAM_BRANCHID",
+            "default_value": "unstable",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:64",
+            "field_type": "text"
+        },
+        {
+            "name": "Multiplayer Game Patch [Requires Reinstallation]",
+            "description": "Multiplayer game patch download link, no changes needed by default. If the patch needs to be updated, modify this link and reinstall.",
+            "env_variable": "PATCH_LINK",
+            "default_value": "https:\/\/raw.githubusercontent.com\/Shuazijun\/PZB42\/refs\/heads\/main\/B42MP-1.57.rar",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:256",
+            "field_type": "text"
+        },
+        {
+            "name": "Depot Tool [Requires Reinstallation]",
+            "description": "DepotDownloader download link, no changes needed by default.",
+            "env_variable": "DEPOT_LINK",
+            "default_value": "https:\/\/github.com\/SteamRE\/DepotDownloader\/releases\/download\/DepotDownloader_3.4.0\/DepotDownloader-linux-x64.zip",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:256",
+            "field_type": "text"
+        },
+        {
+            "name": "Custom Startup Script [Requires Reinstallation]",
+            "description": "Third-party developed startup script support, no changes needed by default.",
+            "env_variable": "START_SH",
+            "default_value": "https:\/\/raw.githubusercontent.com\/Shuazijun\/PZB42\/refs\/heads\/main\/start.sh",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:256",
+            "field_type": "text"
+        }
+    ]
+}
