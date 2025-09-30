@@ -142,7 +142,7 @@
             "name": "Depot Manifest ID [Requires Reinstallation]",
             "description": "Steam Manifest ID,More infomations Check SteamDB",
             "env_variable": "DEPOT_MANIFESTID",
-            "default_value": "6529967175871940863",
+            "default_value": "249541819024555413",
             "user_viewable": true,
             "user_editable": false,
             "rules": "required|string|max:32",

@@ -45,7 +45,7 @@
 - `STEAM_PASS`: Steam账户密码 (首次安装必须填写)
 - `DEPOT_APPID`: Steam应用ID (108600)
 - `DEPOT_SUBID`: Steam应用子ID (108603) - 用于Linux平台
-- `DEPOT_MANIFESTID`: 仓库清单ID (6529967175871940863) - 更改时需要重新安装。更多信息请查看：https://steamdb.info/depot/108603/manifests/
+- `DEPOT_MANIFESTID`: 仓库清单ID (249541819024555413) - 更改时需要重新安装。更多信息请查看：https://steamdb.info/depot/108603/manifests/
 - `STEAM_BRANCHID`: 测试分支 (unstable)
 - `PATCH_LINK`: 多人补丁下载链接
 - `DEPOT_LINK`: DepotDownloader工具链接

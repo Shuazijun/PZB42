@@ -143,7 +143,7 @@
             "name": "\u4ed3\u5e93\u6e05\u5355ID [\u9700\u8981\u91cd\u65b0\u5b89\u88c5]",
             "description": "Steam\u6e05\u5355ID,\u66f4\u591a\u4fe1\u606f\u8bf7\u67e5\u770bSteamDB",
             "env_variable": "DEPOT_MANIFESTID",
-            "default_value": "6529967175871940863",
+            "default_value": "249541819024555413",
             "user_viewable": true,
             "user_editable": false,
             "rules": "required|string|max:32",

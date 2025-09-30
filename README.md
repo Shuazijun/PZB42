@@ -45,7 +45,7 @@ The server supports the following environment variables:
 - `STEAM_PASS`: Steam account password (required for first installation)
 - `DEPOT_APPID`: Steam Application ID (108600)
 - `DEPOT_SUBID`: Steam Application Sub ID (108603) - Linux platform specific
-- `DEPOT_MANIFESTID`: Depot Manifest ID (6529967175871940863) - requires reinstallation when changed. For more information, check: https://steamdb.info/depot/108603/manifests/
+- `DEPOT_MANIFESTID`: Depot Manifest ID (249541819024555413) - requires reinstallation when changed. For more information, check: https://steamdb.info/depot/108603/manifests/
 - `STEAM_BRANCHID`: Test branch (unstable)
 - `PATCH_LINK`: Multiplayer patch download URL
 - `DEPOT_LINK`: DepotDownloader tool URL
