@@ -23,7 +23,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!\/bin\/bash\r\n# steamcmd Base Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\n# Image to install with is 'ghcr.io\/ptero-eggs\/installers:debian'\r\n\r\n## Steam Account Input Cheak.\r\nif [[ \"${STEAM_USER}\" == \"\" ]] || [[ \"${STEAM_PASS}\" == \"\" ]]; then\r\n    echo -e \"Steam User is not set.\\n\"\r\n    echo -e \"Using anonymous user.\\n\"\r\n    STEAM_USER=anonymous\r\n    STEAM_PASS=\"\"\r\nelse\r\n    echo -e \"User set to ${STEAM_USER}\"\r\nfi\r\n\r\n## Download and install Steamcmd\r\ncd \/tmp\r\nmkdir -p \/mnt\/server\/steamcmd\r\ncurl -sSL -o steamcmd.tar.gz https:\/\/steamcdn-a.akamaihd.net\/client\/installer\/steamcmd_linux.tar.gz\r\ntar -xzvf steamcmd.tar.gz -C \/mnt\/server\/steamcmd\r\nmkdir -p \/mnt\/server\/steamapps # Fix steamcmd disk write error when this folder is missing\r\ncd \/mnt\/server\/steamcmd\r\n\r\n# SteamCMD fails otherwise for some reason, even running as root.\r\n# This is changed at the end of the install process anyways.\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\n\r\n## install game using steamcmd\r\n.\/steamcmd.sh +force_install_dir \/mnt\/server +login anonymous +quit\r\n\r\n## set up 32 bit libraries\r\nmkdir -p \/mnt\/server\/.steam\/sdk32\r\ncp -v linux32\/steamclient.so ..\/.steam\/sdk32\/steamclient.so\r\n\r\n## set up 64 bit libraries\r\nmkdir -p \/mnt\/server\/.steam\/sdk64\r\ncp -v linux64\/steamclient.so ..\/.steam\/sdk64\/steamclient.so\r\n\r\n## The Fun Starts now\r\ncd \/mnt\/server\r\napt update\r\napt install -y wget unzip libarchive-tools\r\n\r\nwget -O depot.zip \"${DEPOT_LINK}\"\r\nunzip depot.zip\r\nrm -rf depot.zip\r\n\r\nwget -O start.sh \"${START_SH}\"\r\n\r\n.\/DepotDownloader -dir \"\/mnt\/server\" -app \"${DEPOT_APPID}\" -branch \"${STEAM_BRANCHID}\" -depot \"${DEPOT_SUBID}\" -username \"${STEAM_USER}\" -password \"${STEAM_PASS}\"\r\nchmod -R 777 .\/*\r\n\r\nwget -O B42MP.rar \"${PATCH_LINK}\"\r\nbsdtar -xf B42MP.rar\r\nmv .\/b42mp\/* .\/projectzomboid\r\nmv B42MP.jar .\/projectzomboid\r\nrm -R b42mp b42mp.bat .wget-hsts b42mp.sh b42serverstart.bat LICENSE LICENSE.txt B42MP.rar DepotDownloader\r\nchmod -R 777 .\/*\r\n## install end\r\necho \"-----------------------------------------\"\r\necho \"Installation completed...\"\r\necho \"-----------------------------------------\"",
+            "script": "#!\/bin\/bash\r\n# steamcmd Base Installation Script\r\n#\r\n# Server Files: \/mnt\/server\r\n# Image to install with is 'ghcr.io\/ptero-eggs\/installers:debian'\r\n\r\n## Steam Account Input Cheak.\r\nif [[ \"${STEAM_USER}\" == \"\" ]] || [[ \"${STEAM_PASS}\" == \"\" ]]; then\r\n    echo -e \"Steam User is not set.\\n\"\r\n    echo -e \"Using anonymous user.\\n\"\r\n    STEAM_USER=anonymous\r\n    STEAM_PASS=\"\"\r\nelse\r\n    echo -e \"User set to ${STEAM_USER}\"\r\nfi\r\n\r\n## Download and install Steamcmd\r\ncd \/tmp\r\nmkdir -p \/mnt\/server\/steamcmd\r\ncurl -sSL -o steamcmd.tar.gz https:\/\/steamcdn-a.akamaihd.net\/client\/installer\/steamcmd_linux.tar.gz\r\ntar -xzvf steamcmd.tar.gz -C \/mnt\/server\/steamcmd\r\nmkdir -p \/mnt\/server\/steamapps # Fix steamcmd disk write error when this folder is missing\r\ncd \/mnt\/server\/steamcmd\r\n\r\n# SteamCMD fails otherwise for some reason, even running as root.\r\n# This is changed at the end of the install process anyways.\r\nchown -R root:root \/mnt\r\nexport HOME=\/mnt\/server\r\n\r\n## install game using steamcmd\r\n.\/steamcmd.sh +force_install_dir \/mnt\/server +login anonymous +quit\r\n\r\n## set up 32 bit libraries\r\nmkdir -p \/mnt\/server\/.steam\/sdk32\r\ncp -v linux32\/steamclient.so ..\/.steam\/sdk32\/steamclient.so\r\n\r\n## set up 64 bit libraries\r\nmkdir -p \/mnt\/server\/.steam\/sdk64\r\ncp -v linux64\/steamclient.so ..\/.steam\/sdk64\/steamclient.so\r\n\r\n## The Fun Starts now\r\ncd \/mnt\/server\r\napt update\r\napt install -y wget unzip libarchive-tools\r\n\r\nwget -O depot.zip \"${DEPOT_LINK}\"\r\nunzip depot.zip\r\nrm -rf depot.zip\r\n\r\nwget -O start.sh \"${START_SH}\"\r\n\r\n.\/DepotDownloader -dir \"\/mnt\/server\" -app \"${DEPOT_APPID}\" -branch \"${STEAM_BRANCHID}\" -depot \"${DEPOT_SUBID}\" -manifest \"${DEPOT_MANIFESTID}\" -username \"${STEAM_USER}\" -password \"${STEAM_PASS}\"\r\nchmod -R 777 .\/*\r\n\r\nwget -O B42MP.rar \"${PATCH_LINK}\"\r\nbsdtar -xf B42MP.rar\r\nmv .\/b42mp\/* .\/projectzomboid\r\nmv B42MP.jar .\/projectzomboid\r\nrm -R b42mp b42mp.bat .wget-hsts b42mp.sh b42serverstart.bat LICENSE LICENSE.txt B42MP.rar DepotDownloader\r\nchmod -R 777 .\/*\r\n## install end\r\necho \"-----------------------------------------\"\r\necho \"Installation completed...\"\r\necho \"-----------------------------------------\"",
             "container": "ghcr.io\/ptero-eggs\/installers:debian",
             "entrypoint": "bash"
         }
@@ -101,7 +101,7 @@
         },
         {
             "name": "\u6e38\u620f\u5e94\u7528\u5b50ID",
-            "description": "Steam\u5e94\u7528\u5b50ID",
+            "description": "Steam\u5e94\u7528\u5b50ID\u7528\u4e8eLinux\u5e73\u53f0",
             "env_variable": "DEPOT_SUBID",
             "default_value": "108603",
             "user_viewable": true,
@@ -123,7 +123,7 @@
             "name": "\u591a\u4eba\u6e38\u620f\u8865\u4e01[\u9700\u8981\u91cd\u65b0\u5b89\u88c5]",
             "description": "\u591a\u4eba\u6e38\u620f\u8865\u4e01\u4e0b\u8f7d\u94fe\u63a5,\u9ed8\u8ba4\u4e0d\u9700\u8981\u4fee\u6539,\u82e5\u8865\u4e01\u9700\u8981\u66f4\u65b0,\u5219\u4fee\u6539\u8fd9\u4e2a\u94fe\u63a5\u540e\u8fdb\u884c\u91cd\u65b0\u5b89\u88c5.",
             "env_variable": "PATCH_LINK",
-            "default_value": "https:\/\/raw.githubusercontent.com\/Shuazijun\/PZB42\/refs\/heads\/main\/B42MP-1.57.rar",
+            "default_value": "https:\/\/raw.githubusercontent.com\/Shuazijun\/PZB42\/refs\/heads\/main\/B42MP-1.61.rar",
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:256",
@@ -137,6 +137,16 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|max:256",
+            "field_type": "text"
+        },
+        {
+            "name": "\u4ed3\u5e93\u6e05\u5355ID [\u9700\u8981\u91cd\u65b0\u5b89\u88c5]",
+            "description": "Steam\u6e05\u5355ID,\u66f4\u591a\u4fe1\u606f\u8bf7\u67e5\u770bSteamDB",
+            "env_variable": "DEPOT_MANIFESTID",
+            "default_value": "6529967175871940863",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|string|max:32",
             "field_type": "text"
         },
         {
